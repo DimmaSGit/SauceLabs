@@ -1,41 +1,26 @@
-import { Page, Locator } from "@playwright/test";
 import { BasePage } from "../BasePage";
+import { CheckoutPageLocators } from "./CheckoutPageLocators";
 
 export class CheckoutPage extends BasePage {
-  readonly firstNameLocator: Locator;
-  readonly lastNameLocator: Locator;
-  readonly zipCodeLocator: Locator;
-  readonly continueButtonLocator: Locator;
-  readonly cancelButtonLocator: Locator;
-  readonly finishButtonLocator: Locator;
-
-  constructor(page: Page) {
-    super(page);
-    this.firstNameLocator = page.getByTestId("firstName");
-    this.lastNameLocator = page.getByTestId("lastName");
-    this.zipCodeLocator = page.getByTestId("postalCode");
-    this.continueButtonLocator = page.getByTestId("continue");
-    this.cancelButtonLocator = page.getByTestId("cancel");
-    this.finishButtonLocator = page.getByTestId("finish");
-  }
+  readonly locators: CheckoutPageLocators = new CheckoutPageLocators(this.page);
 
   async fillFirstName(firstName: string) {
-    await this.firstNameLocator.fill(firstName);
+    await this.locators.firstNameLocator.fill(firstName);
   }
 
   async fillLastName(lastName: string) {
-    await this.lastNameLocator.fill(lastName);
+    await this.locators.lastNameLocator.fill(lastName);
   }
 
   async fillZipCode(zipCode: string) {
-    await this.zipCodeLocator.fill(zipCode);
+    await this.locators.zipCodeLocator.fill(zipCode);
   }
 
   async continue() {
-    await this.continueButtonLocator.click();
+    await this.locators.continueButtonLocator.click();
   }
 
   async finish() {
-    await this.finishButtonLocator.click();
+    await this.locators.finishButtonLocator.click();
   }
 }

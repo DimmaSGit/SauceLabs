@@ -1,6 +1,6 @@
-const { LOGIN, PASSWORD } = process.env;
+const { STANDARD_LOGIN, PASSWORD } = process.env;
 const user = {
-  loginData: { login: LOGIN!, password: PASSWORD! },
+  loginData: { login: STANDARD_LOGIN!, password: PASSWORD! },
   firstName: "QA-test",
   lastName: "Tester",
   zipCode: "10001",
