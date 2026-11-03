@@ -12,7 +12,7 @@ test.describe("End-to-End tests for SauceLabs", () => {
   let checkoutPage: CheckoutPage;
 
 test.beforeEach(async ({ page }) => {
-  page.goto("/");
+  await page.goto("/");
   loginPage = new LoginPage(page);
   productPage = new ProductPage(page);
   cartPage = new CartPage(page);
@@ -24,7 +24,7 @@ test(
   { tag: ["@smoke", "@login"] },
   async ({ page }) => {
     await loginPage.loginUser(user.loginData);
-    await expect(productPage.productListLocator).toBeVisible();
+    await expect(productPage.locators.productListLocator).toBeVisible();
   },
 );
 
@@ -34,7 +34,7 @@ for (const product of products) {
     { tag: ["@smoke", "@regression"] },
     async ({ page }) => {
       await loginPage.loginUser(user.loginData);
-      await expect(productPage.productListLocator).toBeVisible();
+      await expect(productPage.locators.productListLocator).toBeVisible();
       await productPage.addToCartByTitle(product.name);
       await cartPage.gotoCartPage();
       const priceInCart = await cartPage.getPriceByTitle(product.name);
@@ -49,7 +49,7 @@ test(
   async ({ page }) => {
     await loginPage.loginUser(user.loginData);
 
-    await expect(productPage.productListLocator).toBeVisible();
+    await expect(productPage.locators.productListLocator).toBeVisible();
     await productPage.addToCartByTitle(products[0].name);
 
     await cartPage.gotoCartPage();
@@ -61,7 +61,7 @@ test(
     await checkoutPage.continue();
     await checkoutPage.finish();
 
-    expect(page.getByTestId("complete-header")).toBeVisible();
+    await expect(checkoutPage.locators.completeHeaderLocator).toBeVisible();
   },
 );
 });

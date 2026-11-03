@@ -1,29 +1,23 @@
-import { Page, Locator } from "@playwright/test";
 import { BasePage } from "../BasePage";
 import { ProductComponent } from "../../Components/product-component";
+import { ProductPageLocators } from "./ProductPageLocators";
 
 export class ProductPage extends BasePage {
-  readonly productListLocator: Locator;
-  readonly product: ProductComponent;
-
-  constructor(page: Page) {
-    super(page);
-    this.productListLocator = page.getByTestId("inventory-list");
-    this.product = new ProductComponent(page);
-  }
+  readonly product: ProductComponent = new ProductComponent(this.page);
+  readonly locators: ProductPageLocators = new ProductPageLocators(this.page);
 
   async addToCartByTitle(title: string) {
     const product = await this.product.getProductByTitle(title);
-    await product.getByRole("button", { name: "Add to cart" }).click();
+    await this.locators.getAddToCartLocatorByProduct(product).click();
   }
 
   async removeFromCartByTitle(title: string) {
     const product = await this.product.getProductByTitle(title);
-    await product.getByRole("button", { name: "Remove" }).click();
+    await this.locators.getRemoveLocatorByProduct(product).click();
   }
 
   async getPriceByTitle(title: string) {
     const product = await this.product.getProductByTitle(title);
-    return await product.getByTestId("inventory-item-price").innerText();
+    return await this.locators.getPriceLocatorByProduct(product).innerText();
   }
 }
