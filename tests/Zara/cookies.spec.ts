@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test("accept cookies", async ({ page, context }) => {
   await page.goto(`${process.env.ZARA_URL}`);
   await page

@@ -6,6 +6,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 export default defineConfig({
   testDir: "./tests",
+  globalSetup: "./global-setup.ts", 
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -14,6 +15,9 @@ export default defineConfig({
   use: {
     // baseURL: "https://www.saucedemo.com/",
     trace: "on-first-retry",
+    // Every project starts logged in as the Articles user by default.
+    // Other projects opt out with test.use({ storageState: { cookies: [], origins: [] } }).
+    storageState: ".auth/user.json",
   },
 
   projects: [
@@ -26,19 +30,19 @@ export default defineConfig({
         testIdAttribute: "data-test",
       },
     },
-    {
-      name: "articles-setup",
-      testMatch: /tests\/Articles\/.*\.setup\.ts$/,
-      use: { ...devices["Desktop Chrome"], baseURL: process.env.ARTICLES_URL },
-    },
+    // Project-based setup (replaced by globalSetup for now):
+    // {
+    //   name: "articles-setup",
+    //   testMatch: /tests\/Articles\/.*\.setup\.ts$/,
+    //   use: { ...devices["Desktop Chrome"], baseURL: process.env.ARTICLES_URL },
+    // },
     {
       name: "Articles",
-      dependencies: ["articles-setup"],
+      // dependencies: ["articles-setup"],
       testMatch: /tests\/Articles\/.*\.spec\.ts$/,
       use: {
         ...devices["Desktop Chrome"],
         baseURL: process.env.ARTICLES_URL,
-        storageState: ".auth/user.json", // every Articles test starts logged in
       },
     },
     {

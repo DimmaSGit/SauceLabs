@@ -1,6 +1,8 @@
 import { test, expect } from "../../fixtures/fixtures";
 import { products, user } from "../../SauceLabs/helpers/test-data";
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("End-to-End tests for SauceLabs - refactored", () => {
 
 for (const product of products) {
