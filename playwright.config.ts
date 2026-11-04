@@ -6,6 +6,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 export default defineConfig({
   testDir: "./tests",
+  globalSetup: "./global-setup.ts", 
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -14,15 +15,42 @@ export default defineConfig({
   use: {
     // baseURL: "https://www.saucedemo.com/",
     trace: "on-first-retry",
+    // Every project starts logged in as the Articles user by default.
+    // Other projects opt out with test.use({ storageState: { cookies: [], origins: [] } }).
+    storageState: ".auth/user.json",
   },
 
   projects: [
     {
       name: "SauceLabs",
+      testMatch: /tests\/(SauceLabs|with-fixture-SL)\/.*\.spec\.ts$/,
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: process.env.BASE_URL,
+        baseURL: process.env.SWAGLABS_URL,
         testIdAttribute: "data-test",
+      },
+    },
+    // Project-based setup (replaced by globalSetup for now):
+    // {
+    //   name: "articles-setup",
+    //   testMatch: /tests\/Articles\/.*\.setup\.ts$/,
+    //   use: { ...devices["Desktop Chrome"], baseURL: process.env.ARTICLES_URL },
+    // },
+    {
+      name: "Articles",
+      // dependencies: ["articles-setup"],
+      testMatch: /tests\/Articles\/.*\.spec\.ts$/,
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: process.env.ARTICLES_URL,
+      },
+    },
+    {
+      name: "Zara",
+      testMatch: /tests\/Zara\/.*\.spec\.ts$/,
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: process.env.ZARA_URL,
       },
     },
   ],

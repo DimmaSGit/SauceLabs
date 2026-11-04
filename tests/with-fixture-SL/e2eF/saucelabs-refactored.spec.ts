@@ -1,6 +1,8 @@
 import { test, expect } from "../../fixtures/fixtures";
 import { products, user } from "../../SauceLabs/helpers/test-data";
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("End-to-End tests for SauceLabs - refactored", () => {
 
 for (const product of products) {
@@ -40,7 +42,6 @@ test(
 
 test.describe("Locked out user", () => {
 test.use({ userType: "lockedOut" });
-
   test(
     "OOP-03 Locked out user is not able to log in",
     { tag: ["@smoke", "@login"] },

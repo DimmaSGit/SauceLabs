@@ -5,6 +5,8 @@ import { ProductPage } from "../LabsPages/ProductPage/ProductPage";
 import { CartPage } from "../LabsPages/CartPage/CartPage";
 import { CheckoutPage } from "../LabsPages/CheckoutPage/CheckoutPage";
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("End-to-End tests for SauceLabs", () => {
   let loginPage: LoginPage;
   let productPage: ProductPage;
