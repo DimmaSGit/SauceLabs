@@ -40,7 +40,6 @@ test(
 
 test.describe("Locked out user", () => {
 test.use({ userType: "lockedOut" });
-
   test(
     "OOP-03 Locked out user is not able to log in",
     { tag: ["@smoke", "@login"] },

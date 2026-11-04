@@ -19,10 +19,34 @@ export default defineConfig({
   projects: [
     {
       name: "SauceLabs",
+      testMatch: /tests\/(SauceLabs|with-fixture-SL)\/.*\.spec\.ts$/,
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: process.env.BASE_URL,
+        baseURL: process.env.SWAGLABS_URL,
         testIdAttribute: "data-test",
+      },
+    },
+    {
+      name: "articles-setup",
+      testMatch: /tests\/Articles\/.*\.setup\.ts$/,
+      use: { ...devices["Desktop Chrome"], baseURL: process.env.ARTICLES_URL },
+    },
+    {
+      name: "Articles",
+      dependencies: ["articles-setup"],
+      testMatch: /tests\/Articles\/.*\.spec\.ts$/,
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: process.env.ARTICLES_URL,
+        storageState: ".auth/user.json", // every Articles test starts logged in
+      },
+    },
+    {
+      name: "Zara",
+      testMatch: /tests\/Zara\/.*\.spec\.ts$/,
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: process.env.ZARA_URL,
       },
     },
   ],

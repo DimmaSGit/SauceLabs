@@ -1,6 +1,7 @@
 
 # Playwright
 .env/
+.auth/
 node_modules/
 /test-results/
 /playwright-report/
@@ -8,3 +9,5 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 
+
+.DS_Store
