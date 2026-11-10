@@ -6,18 +6,18 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 export default defineConfig({
   testDir: "./tests",
-  globalSetup: "./global-setup.ts", 
+  // globalSetup: "./global-setup.ts",
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
-    // baseURL: "https://www.saucedemo.com/",
+    baseURL: process.env.ARTICLES_BASE_URL ?? "http://104.168.59.50",
     trace: "on-first-retry",
     // Every project starts logged in as the Articles user by default.
     // Other projects opt out with test.use({ storageState: { cookies: [], origins: [] } }).
-    storageState: ".auth/user.json",
+    // storageState: ".auth/user.json",
   },
 
   projects: [
@@ -42,7 +42,7 @@ export default defineConfig({
       testMatch: /tests\/Articles\/.*\.spec\.ts$/,
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: process.env.ARTICLES_URL,
+        baseURL: process.env.ARTICLES_BASE_URL,
       },
     },
     {
