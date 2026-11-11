@@ -1,10 +1,15 @@
 import { test as base, expect, request } from "@playwright/test";
 import { registerUser, TestUser } from "./articles.api";
+import { ArticlesPage } from "./PageObjects/ArticlesPage";
+import { SettingsPage } from "./PageObjects/SettingsPage";
     
 type MyFixtures = {
   login: void;
   token: string;
   registeredUser: TestUser & { image: string };
+  articlePage: ArticlesPage;
+  settingsPage: SettingsPage;
+  
 };
 
 const test = base.extend<MyFixtures>({
@@ -32,7 +37,6 @@ const test = base.extend<MyFixtures>({
     await use(token);
   },
   registeredUser: async ({ context, baseURL }, use) => {
-    // Create an unauthenticated context isolated from your global login state
     const unauthContext = await request.newContext();
     const user = await registerUser(unauthContext);
     const image = user.image;
@@ -40,9 +44,12 @@ const test = base.extend<MyFixtures>({
     await context.setStorageState(localStorage);
 
     await use({ ...user, image });
-
-    // Optional: Clean up user via API after test if your backend supports it
-    await unauthContext.dispose();
+  },
+  articlePage: async ({ page }, use) => {
+    await use(new ArticlesPage(page));
+  },
+  settingsPage: async ({ page }, use) => {
+    await use(new SettingsPage(page)); 
   },
 });
 function createLocalStorage(baseUrl: string, token: string) {
