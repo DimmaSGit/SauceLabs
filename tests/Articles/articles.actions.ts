@@ -48,7 +48,7 @@ export async function loginUser(
 export async function createArticle(
   page: Page,
   article = {
-    title: `Title-${faker.string.alphanumeric(8)}`,
+    title: `Title-${faker.book.title()}`,
     description: `Desc-${faker.string.alphanumeric(15)}`,
     body: `Body-${faker.string.alphanumeric(25)}`,
   },

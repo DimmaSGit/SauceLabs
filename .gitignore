@@ -1,6 +1,6 @@
 
 # Playwright
-.env/
+.env
 .auth/
 node_modules/
 /test-results/
